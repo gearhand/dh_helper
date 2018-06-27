@@ -27,7 +27,23 @@ struct World {
 fn generate_world(seed: u8) -> Result<World, String> {
     if seed > 100 {
         Err(String::from("Seed value too high"))
-    } else {
+    } else if seed > 95 {
+        Ok(World {name: String::from("Очищеный разум")})
+    } else if seed > 85 {
+        Ok(World {name: String::from("Благородная кровь")})
+    } else if seed > 75 {
+        Ok(World {name: String::from("Схола Прогениум")})
+    } else if seed > 65 {
+        Ok(World {name: String::from("Мир-Кузница")})
+    } else if seed > 55 {
+        Ok(World {name: String::from("Рождённый в Пустоте")})
+    } else if seed > 35 {
+        Ok(World {name: String::from("Имперский мир")})
+    } else if seed > 15 {
+        Ok(World {name: String::from("Мир-Улей")})
+    } else if seed > 0 {
         Ok(World {name: String::from("Дикий мир")})
+    } else {
+        Err(String::from("Seed value could not be zero"))
     }
 }
