@@ -1,13 +1,33 @@
 use std::string::String;
+use std::io;
 
 fn main() {
     println!("Добро пожаловать в мрачное будущее!");
 
-    print!("Выбери свой родной мир: ");
-    // TODO: read numbers from stdin
-    // TODO: generate world from number
+    let world = loop {
+        let mut input = String::new();
+        println!("Выбери свой родной мир: ");
+        io::stdin().read_line(&mut input).expect("Failed to read line!");
+        //print!("Input was: {}", input);
+        match input.trim().parse::<u8>() {
+            Err(err) => {
+                println!("{}", err);
+                println!("Неверный параметр. Введите число от 1 до 100.");
+                continue;
+            },
+            Ok(seed) => {
+                match generate_world(seed) {
+                    Err(err) => {
+                        println!("{}", err);
+                        continue;
+                    },
+                    Ok(world) => break world,
+                }
+            },
+        };
+    };
 
-    let world = World {name: String::from("Дикий мир")};
+    //let world = World {name: String::from("Дикий мир")};
     println!("{}", world.name);
 
     println!("Вы можете сгенерировать характеристики с помощью генератора случайных чисел \
@@ -44,6 +64,6 @@ fn generate_world(seed: u8) -> Result<World, String> {
     } else if seed > 0 {
         Ok(World {name: String::from("Дикий мир")})
     } else {
-        Err(String::from("Seed value could not be zero"))
+        Err(String::from("Число не может быть нулём!"))
     }
 }
