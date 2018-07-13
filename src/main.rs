@@ -1,7 +1,23 @@
 use std::string::String;
 use std::io;
+use std::fs::File;
+use std::env::args;
+
+extern crate serde;
+extern crate serde_json;
+
+#[macro_use]
+extern crate serde_derive;
 
 fn main() {
+
+    //TODO: load configuration
+    //let Worlds = serde_json::from_reader(File::open(args()[0]));
+
+    let arguments: Vec<String> = args().collect();
+    println!("Arguments:  {} {}", arguments[0], arguments[1]);
+    return;
+
     println!("Добро пожаловать в мрачное будущее!");
 
     let world = loop {
@@ -40,13 +56,19 @@ fn main() {
     println!("Готово! Слава Императору!");
 }
 
+#[derive (Serialize, Deserialize)]
 struct World {
     name: String,
+    //description: String,
+}
+
+struct Character {
+    description: String,
 }
 
 fn generate_world(seed: u8) -> Result<World, String> {
     if seed > 100 {
-        Err(String::from("Seed value too high"))
+        Err(String::from("Значение параметра слишком велико!"))
     } else if seed > 95 {
         Ok(World {name: String::from("Очищеный разум")})
     } else if seed > 85 {
