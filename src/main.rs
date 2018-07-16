@@ -11,11 +11,12 @@ extern crate serde_derive;
 
 fn main() {
 
-    //TODO: load configuration
-    //let Worlds = serde_json::from_reader(File::open(args()[0]));
 
     let arguments: Vec<String> = args().collect();
     println!("Arguments:  {} {}", arguments[0], arguments[1]);
+    //TODO: load configuration
+    let worlds : Vec<World> = serde_json::from_reader(File::open(arguments[1].clone()).unwrap()).expect("Failed to load config");
+    println!("Worlds: {:?}", worlds);
     return;
 
     println!("Добро пожаловать в мрачное будущее!");
@@ -56,7 +57,7 @@ fn main() {
     println!("Готово! Слава Императору!");
 }
 
-#[derive (Serialize, Deserialize)]
+#[derive (Serialize, Deserialize, Debug)]
 struct World {
     name: String,
     //description: String,
